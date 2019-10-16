@@ -10,9 +10,21 @@ router.get("/team", (req, res, next) => {
 });
 
 router.post("/team", (req, res, next) => {
-    Team.create(req.body)
-      .then(team => res.send(team))
-      .catch(err => next(err));
-  });
+  Team.create(req.body)
+    .then(team => res.send(team))
+    .catch(err => next(err));
+});
+
+router.get("/team/:id", (req, res, next) => {
+  Team.findByPk(req.params.id)
+    .then(team => {
+      if (!team) {
+          res.status(404).end()
+      } else {
+        res.send(team);
+      }
+    })
+    .catch(err => next(err));
+});
 
 module.exports = router;
